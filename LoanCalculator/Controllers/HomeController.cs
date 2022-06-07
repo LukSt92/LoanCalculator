@@ -6,11 +6,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using LoanCalculator.Helpers;
+using System.Globalization;
 
 namespace LoanCalculator.Controllers
 {
     public class HomeController : Controller
     {
+        
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -30,16 +34,28 @@ namespace LoanCalculator.Controllers
 
         public IActionResult App()
         {
+
             Loan loan = new();
 
             loan.Payment = 0.0m;
             loan.TotalInterest = 0.0m;
             loan.TotalCost = 0.0m;
-            loan.Rate = 3.5m;
+            loan.Rate = 3m;
             loan.Amount = 150000m;
             loan.Term = 60;
 
             return View(loan);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult App(Loan loan)
+        {
+            var loanHelper = new LoanHelper();
+
+            Loan newloan = loanHelper.GetPayments(loan);
+
+            return View(newloan);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
