@@ -6,7 +6,7 @@ A project made for educational purposes.
 ## Technology:
 
 - C#
-- ASP.NET MVC
+- ASP.NET Core
 - HTML
 - CSS
 
